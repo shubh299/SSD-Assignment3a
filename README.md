@@ -10,19 +10,14 @@ Branch - 3b
 5. Changes in line 44 to 47 - printing levels between employee and common leader.
 
 ## Q2. Date Difference
-1. 
+1. Change in Line 11 - Changed definition of `returnDate` function to handle mm/dd/yyyy format. In this case date_format=1, and 0 otherwise.
+2. Added lines 14-15,19-20,24-25 - To handle mm/dd/yyyy case.
+3. Modified lines 77 to 84 - To handle commandline argument and call to modified `returnDate` function.
 
 ## Q3. Common Slot
-1. Used datetime and json library.
-2. Read input files and replaced `'` with `"` to bring it to json format.
-3. Used json.loads to get the input as dictionary.
-4. Created `Employee` class which has
-* Attributes -
-    * Name
-    * Date of given slots
-    * List of Busy Slots
-    * List of Free Slots
-* Method -
-    * findFreeSlots - which finds free slots(using `datetime`)and appends to list of free slots
-
-5. Used `datetime` to find common slots slots and get first common slot which can accomodate given slots
+1. Added Line 3 - Added `import os` to read input files from a directory.
+2. Changed lines 35 to 45 - Read files one by one, created an object of `Employee` for each, finding their free slots and listing them in `employee_list`.
+3. Changed lines 49-50 - To write all available slots for all employees.
+4. Changed lines 52 to 56 - Checking if given slot of all employees are on same date or not.
+5. Changed lines 58-73 - To find list of common free slots along all employees.
+6. Changed line 82 - To print date of slot booked.
