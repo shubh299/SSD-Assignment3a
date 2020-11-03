@@ -1,5 +1,6 @@
 import json
 import datetime
+import os
 
 class Employee:
     empFreeSlots=list()
@@ -31,44 +32,45 @@ class Employee:
 start='9:00AM'
 end='5:00PM'
 
-f=open('Employee1.txt')
-emp1=f.readline()
-f.close()
-emp1=json.loads(emp1.strip().replace("'","\""))
-emp1Slots=list(emp1.values())[0]
-employee1=Employee(list(emp1.keys())[0],list(emp1Slots.keys())[0],list(emp1Slots.values())[0])
-employee1.findFreeSlots(start,end)
-
-f=open('Employee2.txt')
-emp2=f.readline()
-f.close()
-emp2=json.loads(emp2.strip().replace("'","\""))
-emp2Slots=list(emp2.values())[0]
-employee2=Employee(list(emp2.keys())[0],list(emp2Slots.keys())[0],list(emp2Slots.values())[0])
-employee2.findFreeSlots(start,end)
+employee_list=list()
+dir_path="input_files/"
+for file in os.listdir(dir_path):
+    f=open("input_files/"+file)
+    emp=f.readline()
+    f.close()
+    emp=json.loads(emp.strip().replace("'","\""))
+    empSlots=list(emp.values())[0]
+    employee=Employee(list(emp.keys())[0],list(empSlots.keys())[0],list(empSlots.values())[0])
+    employee.findFreeSlots(start,end)
+    employee_list.append(employee)
 
 f=open("output.txt",'w')
 f.write("Available Slot\n")
-f.write(employee1.name+':'+str(employee1.freeSlots)+'\n')
-f.write(employee2.name+':'+str(employee2.freeSlots)+'\n')
+for emp in employee_list:
+    f.write(emp.name+':'+str(emp.freeSlots)+'\n')
 slotDuration=float(input())
-if employee1.date!=employee2.date:
-	f.write("No slot available\n")
+
+date_list=[d.date for d in employee_list]
+if date_list.count(date_list[0])!=len(date_list):
+    print("No slot available\n")
+
 else:
-	commonSlots=list()
-	for interval1 in employee1.freeSlots:
-		for interval2 in employee2.freeSlots:
-		    t11,t12=interval1.split('-')
-		    t21,t22=interval2.split('-')
-		    t11=datetime.datetime.strptime(t11.strip(),"%I:%M%p")
-		    t12=datetime.datetime.strptime(t12.strip(),"%I:%M%p")
-		    t21=datetime.datetime.strptime(t21.strip(),"%I:%M%p")
-		    t22=datetime.datetime.strptime(t22.strip(),"%I:%M%p")
-		    t1=max(t11,t21)
-		    t2=min(t12,t22)
-		    if(t1>=t2):
-		        continue
-		    commonSlots.append((t1,t2))
+	commonSlots=[(datetime.datetime.strptime(interval.split('-')[0].strip(),"%I:%M%p"),datetime.datetime.strptime(interval.split('-')[1].strip(),"%I:%M%p")) for interval in employee_list[0].freeSlots]
+	for i in range(1,len(employee_list)):
+		tempSlots=list()
+		for interval2 in employee_list[i].freeSlots:
+			for interval1 in commonSlots:
+				t11=interval1[0]
+				t12=interval1[1]
+				t21,t22=interval2.split('-')
+				t21=datetime.datetime.strptime(t21.strip(),"%I:%M%p")
+				t22=datetime.datetime.strptime(t22.strip(),"%I:%M%p")
+				t1=max(t11,t21)
+				t2=min(t12,t22)
+				if(t1>=t2):
+					continue
+				tempSlots.append((t1,t2))
+		commonSlots=tempSlots
 	commonSlot=tuple()
 	for i in commonSlots:
 		if slotDuration*60<=(i[1]-i[0]).seconds//60:
@@ -77,7 +79,7 @@ else:
 	if commonSlot==():
 		f.write("No slot available\n")
 	else:
-		slotDict={employee1.date:[datetime.datetime.strftime(commonSlot[0],"%I:%M%p")+" - "+datetime.datetime.strftime(commonSlot[1],"%I:%M%p")]}
+		slotDict={date_list[0]:[datetime.datetime.strftime(commonSlot[0],"%I:%M%p")+" - "+datetime.datetime.strftime(commonSlot[1],"%I:%M%p")]}
 		f.write("Slot Duration: "+str(slotDuration)+" hour\n")
 		f.write(str(slotDict)+"\n")
 f.close()
