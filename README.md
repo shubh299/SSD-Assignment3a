@@ -1,17 +1,16 @@
 # Assignment 3 Part A
-Github Repo - 
+Github Repo - https://github.com/shubh299/SSD-Assignment3a
+Branch - 3b
+
 ## Q1. Common Leader
-1. Read json using `json.load`
-2. Stored leader-employee in dictionary in form `{employee:leader}`
-3. Created a list for each queried employee.
-4. Level of common leader is the index of common in respective list.
-5. Printed `No common leader` if one of the queried employees is the topmost leader.
+1. Changes in line 16 and 17 - changes to take multiple employees as input
+2. Changes in line 20 -  to check if an input id is topmost employee in organisation.
+3. Changes in line 24 to 33 - creating a list of lists of each employee's leaders
+4. Changes in line 36 to 43 - finding common leader from list of leaders instead of 2 lists
+5. Changes in line 44 to 47 - printing levels between employee and common leader.
 
 ## Q2. Date Difference
-1. Accepted input date formats - `dd/mm/yyyy` or `dd.mm.yyyy` or `dd-mm-yyyy` or `ddth Month, yyyy` or `ddth Mon, yyyy`.
-2. Converted date to tuple with `(dd,mm,yyyy)`
-3. Calculated number of days from year `0000`.
-4. Calculated difference of both days and saved in output file.
+1. 
 
 ## Q3. Common Slot
 1. Used datetime and json library.
