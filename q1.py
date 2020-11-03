@@ -13,35 +13,36 @@ for value in data.values():
         if 'parent' in i:
             orgDict[i['name']]=i['parent']
 
-emp1=input()
-emp2=input()
+input_emp=input().split(' ')
+number_of_employees=int(input_emp[0])
+employee_list=input_emp[1:]
 
-emp1Leaders=list()
-emp2Leaders=list()
-if emp1==top or emp2==top:
+if top in employee_list:
     print("Leader not found")
     exit()
-parent=orgDict[emp1]
-emp1Leaders.append(parent)
-while parent!=top:
-    parent=orgDict[parent]
-    emp1Leaders.append(parent)
-parent=orgDict[emp2]
-emp2Leaders.append(parent)
-while parent!=top:
-    parent=orgDict[parent]
-    emp2Leaders.append(parent)
+
+leaders_list=list()
+for emp in employee_list:
+    parent=orgDict[emp]
+    temp_list=list()
+    temp_list.append(parent)
+    while parent!=top:
+        parent=orgDict[parent]
+        temp_list.append(parent)
+    leaders_list.append(temp_list)
 
 leader='000'
-pos1=-1
-pos2=-1
-for i in emp1Leaders:
-    pos1=pos1+1
-    if i in emp2Leaders:
+
+for i in leaders_list[0]:
+    count=0
+    for list_index in range(1,number_of_employees):     
+        if i in leaders_list[list_index]:
+            count+=1
+    if count==number_of_employees-1:
         leader=i
-        pos2=emp2Leaders.index(i)
         break
-if i!='000':
-    print(i,"is common leader of employee",emp1,"and employee",emp2)
-    print("leader",i,"is",pos1+1,"levels above",emp1)
-    print("leader",i,"is",pos2+1,"levels above",emp2)
+
+if leader!='000':
+    print("Common leader:",leader)
+    for list_index in range(0,len(leaders_list)):
+        print("leader",leader,"is",leaders_list[list_index].index(leader)+1,"levels above",employee_list[list_index])
