@@ -1,3 +1,5 @@
+import sys
+
 def isLeap(year):
     if(year%400==0):
         return True
@@ -6,15 +8,21 @@ def isLeap(year):
     if(year%4==0):
         return True
 
-def returnDate(date):
+def returnDate(date,date_format):
     if '/' in date:
         date=date.split('/')
+        if date_format==1:
+            return int(date[1]),int(date[0]),int(date[2])
         return int(date[0]),int(date[1]),int(date[2])
     if '-' in date:
         date=date.split('-')
+        if date_format==1:
+            return int(date[1]),int(date[0]),int(date[2])
         return int(date[0]),int(date[1]),int(date[2])
     if '.' in date:
         date=date.split('.')
+        if date_format==1:
+            return int(date[1]),int(date[0]),int(date[2])
         return int(date[0]),int(date[1]),int(date[2])
         
     year=date[-4:]
@@ -65,8 +73,15 @@ f=open('date_calculator.txt')
 date1=f.readline().strip()[7:]
 date2=f.readline().strip()[7:]
 f.close()
-date1=returnDate(date1)
-date2=returnDate(date2)
+
+date_format=0
+if len(sys.argv)>1:
+    arg1=str(sys.argv[1])
+    if arg1[0]=='m':
+        date_format=1
+
+date1=returnDate(date1,date_format)
+date2=returnDate(date2,date_format)
 diff=findDifference(date1,date2)
 f=open('output.txt','w')
 f.write("Date Difference: "+str(diff)+" Day\n")
