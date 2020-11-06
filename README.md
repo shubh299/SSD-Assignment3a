@@ -1,4 +1,4 @@
-# Assignment 3 Part A
+# Assignment 3 Part B
 Github Repo - https://github.com/shubh299/SSD-Assignment3a
 Branch - 3b
 
