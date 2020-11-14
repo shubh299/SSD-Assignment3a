@@ -9,22 +9,21 @@ def isLeap(year):
         return True
 
 def returnDate(date,date_format):
+    date_list=list()
     if '/' in date:
-        date=date.split('/')
-        if date_format==1:
-            return int(date[1]),int(date[0]),int(date[2])
-        return int(date[0]),int(date[1]),int(date[2])
+        date_list=date.split('/')
+
     if '-' in date:
-        date=date.split('-')
-        if date_format==1:
-            return int(date[1]),int(date[0]),int(date[2])
-        return int(date[0]),int(date[1]),int(date[2])
-    if '.' in date:
-        date=date.split('.')
-        if date_format==1:
-            return int(date[1]),int(date[0]),int(date[2])
-        return int(date[0]),int(date[1]),int(date[2])
+        date_list=date.split('-')
         
+    if '.' in date:
+        date_list=date.split('.')
+            
+    if len(date_list)>0:
+        if date_format==1:
+            return int(date[1]),int(date[0]),int(date[2])
+        return int(date[0]),int(date[1]),int(date[2])
+
     year=date[-4:]
     if 'th ' in date:
         seperator='th'
