@@ -12,3 +12,6 @@ Branch - 3c
 
 ## Q3. Common Slot
 1. No change.
+
+Cyclomatic complexity -
+<img src="Cyclomatic Complexity.png">
